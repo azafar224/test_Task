@@ -1,4 +1,4 @@
-# Document Intelligence Pipeline
+# AI Engineer Test Project (Ahmad Zafar Khan)
 
 A local AI system that reads a folder of PDF documents, figures out what type each one is, pulls out the relevant fields, and lets you search through them with natural language — all without any internet connection or paid APIs.
 
@@ -9,7 +9,7 @@ A local AI system that reads a folder of PDF documents, figures out what type ea
 1. **Ingests PDFs** — reads every `.pdf` in a folder and extracts the text
 2. **Classifies documents** — assigns each one to: Invoice, Resume, Utility Bill, Other, or Unclassifiable
 3. **Extracts structured data** — pulls specific fields per document type and writes them to `output/output.json`
-4. **Semantic search** — lets you query documents by meaning, e.g. *"find invoices from GlobalTech"* or *"candidates with AI experience"*
+4. **Semantic search** — lets you query documents by meaning, e.g. _"find invoices from GlobalTech"_ or _"candidates with AI experience"_
 
 ---
 
@@ -50,11 +50,13 @@ python -m venv venv
 Activate it:
 
 **Windows:**
+
 ```bash
 venv\Scripts\activate
 ```
 
 **Mac/Linux:**
+
 ```bash
 source venv/bin/activate
 ```
@@ -81,17 +83,20 @@ Drop your PDF files into the `documents/` folder. The sample dataset (invoices, 
 
 ### Step 2 — Run the classification and extraction pipeline
 
-**On Windows** (use this to avoid terminal encoding issues):
+**On Windows:**
+
 ```bash
-set PYTHONIOENCODING=utf-8 && python main.py --docs documents/
+python main.py --docs documents/
 ```
 
 Or if you're using PowerShell:
+
 ```powershell
-$env:PYTHONIOENCODING="utf-8"; python main.py --docs documents/
+python main.py --docs documents/
 ```
 
 **On Mac/Linux:**
+
 ```bash
 python main.py --docs documents/
 ```
@@ -131,10 +136,9 @@ You'll see output like this:
 
 ```bash
 # Windows PowerShell
-$env:PYTHONIOENCODING="utf-8"; python main.py --search "electricity bills with high usage" --docs documents/
-$env:PYTHONIOENCODING="utf-8"; python main.py --search "candidates with AI experience" --docs documents/
-$env:PYTHONIOENCODING="utf-8"; python main.py --search "invoices from Pioneer Ltd" --docs documents/
-$env:PYTHONIOENCODING="utf-8"; python main.py --search "payments over 3000 dollars" --top-k 3 --docs documents/
+python main.py --search "electricity bills with high usage" --docs documents/
+python main.py --search "candidates with AI experience" --docs documents/
+python main.py --search "invoices from Pioneer Ltd" --docs documents/
 ```
 
 `--top-k` controls how many results to return (default: 5).
@@ -142,7 +146,7 @@ $env:PYTHONIOENCODING="utf-8"; python main.py --search "payments over 3000 dolla
 ### Run pipeline and search together
 
 ```powershell
-$env:PYTHONIOENCODING="utf-8"; python main.py --docs documents/ --search "find documents mentioning payments due"
+python main.py --docs documents/ --search "find documents mentioning payments due"
 ```
 
 ---
@@ -192,7 +196,7 @@ Used in `ingest.py` to open each PDF and extract text page by page. It works on 
 
 ### `scikit-learn` — TF-IDF search
 
-Used in `retrieval.py` for the search functionality. I built the index with `TfidfVectorizer` (unigram + bigram tokenisation, log-normalised term frequencies) and rank results using `cosine_similarity`. 
+Used in `retrieval.py` for the search functionality. I built the index with `TfidfVectorizer` (unigram + bigram tokenisation, log-normalised term frequencies) and rank results using `cosine_similarity`.
 
 TF-IDF was chosen over a dense embedding model because it requires zero internet access and zero model downloads — it builds its index directly from the document text and works well for keyword-driven queries like those described in the assessment.
 
